@@ -1,0 +1,82 @@
+.progress-bar {
+    position: relative;
+    width: 100%;
+    height: 4px;
+    /* background-color: #e0e0e0; */
+    background-color: transparent;
+    display: flex;
+    justify-content: center;
+    border-radius: 10px;
+    margin-top: -10px;
+    overflow: hidden;
+    /* margin: 20px auto; */
+    /* width: 80%; */
+  }
+
+  .message-box {
+    margin: 20px 0;
+    padding: 20px;
+    border: 1px solid white;
+    border-radius: 10px;
+    background-color: rgba(255, 255, 255, 0.1);
+    color: white;
+    font-size: 16px;
+    max-width: 300px;
+    min-height: 150px;
+  }
+  
+
+  
+  .progress-bar-steps {
+    display: flex;
+    justify-content: space-between; /* Memastikan jarak antar step */
+    position: absolute;
+    width: 100%;
+    top: 50%;
+    transform: translateY(-50%);
+  }
+  
+  .progress-bar-step {
+    flex: 1;
+    height: 4px;
+    background-color: #ccc; /* Warna default step */
+    margin: 0 4px; /* Jarak antar step */
+    border-radius: 2px;
+  }
+
+  .progress-bar-step:first-child {
+    margin-left: 0; /* Hilangkan margin di step pertama */
+  }
+  
+  .progress-bar-step:last-child {
+    margin-right: 0; /* Hilangkan margin di step terakhir */
+  }
+  
+  .progress-bar-step.active {
+    background-color: #4caf50;
+  }
+  
+
+  /* Media queries untuk tampilan mobile */
+@media (max-width: 768px) {
+    .progress-bar-steps {
+      width: 100%; /* Lebar penuh untuk layar kecil */
+    }
+  
+    .progress-bar-step {
+      height: 3px; /* Sedikit lebih kecil di layar kecil */
+      margin: 0 2px; /* Kurangi jarak antar step */
+    }
+  }
+  
+  @media (max-width: 480px) {
+    .progress-bar-steps {
+      width: 100%; /* Tetap lebar penuh */
+      flex-wrap: wrap; /* Jika terlalu kecil, buat menjadi dua baris */
+    }
+  
+    .progress-bar-step {
+      height: 2px; /* Lebih kecil di layar sangat kecil */
+      margin: 0 1px; /* Kurangi jarak */
+    }
+  }

@@ -1,13 +1,146 @@
-body {
+/* Menghilangkan scroll horizontal */
+html, body {
   margin: 0;
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
-    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
-    sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
+  padding: 0;
+  width: 100%;
+  height: 100%;
+  overflow-x: hidden; /* Mencegah scroll horizontal */
+  font-family: Arial, sans-serif; /* Mengatur font global */
 }
 
-code {
-  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
-    monospace;
+/* Gaya umum untuk aplikasi */
+.app {
+  position: relative; /* Agar progress bar tetap di atas gambar */
+  height: 100vh; /* Full height */
+  color: #fff;
+  text-align: center;
+  overflow: hidden; /* Mencegah elemen melampaui layar */
+  display: flex;
+  flex-direction: column;
+  justify-content: center; /* Menjaga konten tetap di tengah */
+  align-items: center;
+}
+
+/* Judul */
+h1 {
+  font-size: 1.8rem; /* Ukuran font yang pas untuk layar kecil */
+  margin-top: 20px;
+  font-weight: bold;
+  color: white;
+  text-align: center; /* Menyusun judul di tengah */
+  line-height: 1.3; /* Memberikan jarak antar baris agar lebih mudah dibaca */
+}
+
+/* Progress Bar */
+.progress-bar-container {
+  position: absolute;
+  top: 20px; /* Menempatkan progress bar sedikit di bawah bagian atas */
+  left: 0;
+  width: 100%;
+  z-index: 10;
+  padding: 10px;
+}
+
+/* Gambar Latar Belakang */
+.background-image {
+  width: 100%;
+  height: 100vh; 
+  background-image: url('./assets/images/image1.png');/* Pastikan gambar latar belakang mengisi seluruh tinggi layar */
+  background-size: cover;
+  /* object-fit: contain; */
+  /* Membuat gambar tetap memenuhi seluruh area tanpa merusak rasio */
+  position: absolute;
+  top: 0;
+  left: 0;
+  z-index: -1;
+  transform: translate(-50%, -50%);
+  transform: scale(1); /* Memastikan gambar berada di bawah progress bar dan konten */
+  background-position: center center; /* Memastikan gambar tetap terpusat */
+  background-repeat: no-repeat; /* Menghindari gambar terulang */
+}
+
+/* Konten */
+.content {
+  z-index: 1; /* Membuat konten tetap di atas gambar */
+  padding: 20px;
+  margin: 20px auto;
+  max-width: 90%; /* Membatasi lebar konten agar tidak melebihi layar */
+  text-align: left; /* Menyesuaikan teks agar lebih mudah dibaca */
+  font-size: 1rem; /* Ukuran font konten di layar kecil */
+  line-height: 1.6; /* Menambah jarak antar baris untuk keterbacaan */
+}
+
+/* Navigasi Panah */
+.navigation {
+  position: absolute;
+  top: 50%; /* Posisikan di tengah vertikal */
+  width: 100%;
+  display: flex;
+  justify-content: space-between; /* Memberikan ruang antara kiri dan kanan */
+  padding: 0 20px;
+  transform: translateY(-50%); /* Menyesuaikan posisi agar tepat di tengah */
+}
+
+button {
+  background: transparent;
+  border: none;
+  color: #fff;
+  font-size: 1.5rem; /* Ukuran tombol lebih kecil untuk mobile */
+  cursor: pointer;
+}
+
+/* Tombol panah */
+.prev-button {
+  text-align: left;
+}
+
+.next-button {
+  text-align: right;
+  margin-right: 20px; /* Menambahkan margin untuk memberi ruang dari tepi */
+}
+
+button:disabled {
+  color: #ccc; /* Mengubah warna tombol yang tidak aktif */
+}
+
+/* For screen size more than 400px */
+@media screen and (min-width: 400px) {
+  body {
+    background-color: lightgreen;
+  }
+}
+
+/* For screen size less than 600px */
+@media screen and (max-width: 600px) {
+  body {
+    background-color: lavender;
+  }
+}
+
+/* Responsif untuk layar kecil */
+@media (max-width: 768px) {
+  h1 {
+    font-size: 1.5rem; /* Ukuran font judul lebih kecil di layar kecil */
+  }
+
+  .content {
+    padding: 15px;
+    margin: 10px auto;
+    font-size: 1rem; /* Ukuran font konten di layar kecil */
+  }
+
+  .progress-bar-container {
+    padding: 5px;
+  }
+
+  button {
+    font-size: 1.5rem; /* Ukuran tombol yang lebih kecil */
+  }
+
+  /* Gambar Latar Belakang untuk Tampilan Mobile */
+  .background-image {
+    height: 100vh; /* Gambar tetap mengisi layar pada perangkat mobile */
+    object-fit: cover; /* Menjaga gambar tetap memenuhi layar dengan proporsional */
+    background-position: center center; /* Menjaga gambar tetap terpusat */
+  }
 }
