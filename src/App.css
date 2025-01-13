@@ -1,7 +1,7 @@
 /* Gaya umum untuk mobile */
 .container {
   height: 100vh; /* Membuat elemen mengisi seluruh tinggi layar */
-  background-image: url('./assets/images/background.png'); /* Menambahkan gambar latar belakang */
+  /* background-image: url('./assets/images/background.png'); Menambahkan gambar latar belakang */
   background-size: cover; /* Menyesuaikan gambar agar menutupi seluruh layar */
   background-position: center; /* Memastikan gambar terpusat */
   background-repeat: no-repeat; /* Agar gambar tidak terulang */
@@ -21,7 +21,7 @@
   left: 0;
   width: 100%;
   z-index: 10; /* Pastikan progress bar berada di atas gambar */
-  background-color: rgba(0, 0, 0, 0.5); /* Tambahkan sedikit transparansi di belakang progress bar */
+  /* background-color: rgba(0, 0, 0, 0.5); Tambahkan sedikit transparansi di belakang progress bar */
   padding: 10px;
   text-align: center;
 }
@@ -60,7 +60,8 @@
   padding: 20px;
   border-radius: 10px;
   text-align: center;
-  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  background-color: rgba(255, 255, 255, 0.8);
+
 }
 
 .calendar-box {
@@ -87,6 +88,7 @@ button:hover {
   border-radius: 10px;
   color: white;
   text-align: center;
+  margin-top: -10px;
 }
 
 .message-box1 {
@@ -143,7 +145,7 @@ button:hover {
   font-family: Arial, sans-serif; /* Sesuaikan font jika perlu */
   font-size: 14px; /* Ukuran font yang sesuai */
   font-weight: bold;
-  color: #000; /* Warna teks */
+  /* color: #000; Warna teks */
   line-height: 1.2; /* Jarak antar baris */
 }
 
