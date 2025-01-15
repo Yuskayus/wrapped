@@ -21,6 +21,7 @@ const App = () => {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const [kerajinanData, setKerajinanData] = useState(null);
+  const [seringDibeli, setSeringDibeli] = useState(null);
   
   // const [joinDate, setJoinDate] = useState(null);
 
@@ -141,6 +142,34 @@ const App = () => {
       fetchKerajinanData();
     }
   }, [clientData]); // Jalankan ulang ketika clientData berubah
+
+  useEffect(() => {
+    if (clientData) {
+      const fetchSeringDibeli = async () => {
+        try {
+          const response = await fetch('http://localhost:3001/api/saham-sering-dibeli');
+          if (!response.ok) {
+            throw new Error(`HTTP error! status: ${response.status}`);
+          }
+          const data = await response.json();
+  
+          // Cari data kerajinan yang sesuai dengan ClientID
+          const filteredData = data.find(item => item.ClientID === clientData.ClientID);
+  
+          if (filteredData) {
+            setSeringDibeli(filteredData); // Simpan data jika ditemukan
+          } else {
+            setSeringDibeli(null); // Jika tidak ditemukan, set null
+          }
+        } catch (err) {
+          console.error("Error fetching tingkat kerajinan:", err.message);
+          setError(err.message);
+        }
+      };
+  
+      fetchSeringDibeli();
+    }
+  }, [clientData]); // Jalankan ulang ketika clientData berubah
   
 
   const handleNext = () => {
@@ -162,23 +191,37 @@ const App = () => {
         return (
           <div>
             <img src="/logo/A.svg" alt="Logo A" />
-            <p>Grade A - Excellent</p>
+            <p>Kamu adalah rizz investor</p>
           </div>
         );
       case "B":
         return (
           <div>
-            <img src="p/logo/B.svg" alt="Logo B" />
-            <p>Grade B - Good</p>
+            <img src="/logo/B.svg" alt="Logo B" />
+            <p>Kamu ga pernah berhenti buat</p>
           </div>
         );
       case "C":
         return (
           <div>
             <img src="/logo/C.svg" alt="Logo C" />
-            <p>Grade C - Average</p>
+            <p>Kamu terbilang fokus</p>
           </div>
         );
+        case "D":
+          return (
+            <div>
+              <img src="/logo/D.svg" alt="Logo C" />
+              <p>Kamu selalu merasa santai</p>
+            </div>
+          );
+          case "E":
+            return (
+              <div>
+                <img src="/logo/E.svg" alt="Logo C" />
+                <p>Hmm sudah lama sekali rasa nya</p>
+              </div>
+            );
       default:
         return <p>Grade not found</p>;
     }
@@ -347,7 +390,7 @@ const handleShare = () => {
       {/* Judul dan Pesan hanya di konten pertama */}
       {activeIndex === 0 && (
         <>
-          <h1 className="greeting">Halo, {clientData.ClientName}</h1>
+          {/* <h1 className="greeting">Halo, {clientData.ClientName}</h1> */}
           <div id="tab-content"  className="message-box" 
             style={{
               
@@ -371,7 +414,7 @@ const handleShare = () => {
               style={{ width: '200px', height: '50px' }}
             />
           </div>
-          <h2 className="greeting">Halo</h2>
+          <p>Halo, {clientData.ClientName}</p>
             <p
              style={{
               textAlign: "left", // Menjadikan teks rata kiri
@@ -420,7 +463,7 @@ const handleShare = () => {
           style={{ width: '200px', height: '60px' }}
         />
         </div>
-        <h1 className="greeting">Halo</h1>
+        <p>Halo, {clientData.ClientName}</p>
         <p>
         Kamu Bersama Alpha<br /> investasi Sejak
       </p>
@@ -454,7 +497,7 @@ const handleShare = () => {
 
       <p>
         Kamu telah bersama Alpha Investasi Selama{' '}
-        {/* {clientData.LamaMenjadiNasabahDalamHari} hari. Wow!. Terima kasih telah */}
+        {clientData.LamaMenjadiNasabahDalamHari} hari. Wow!. Terima kasih telah
         menjadi bagian dari perjalanan kami hingga saat ini.
       </p>
     </div>
@@ -487,7 +530,7 @@ const handleShare = () => {
           style={{ width: '200px', height: '60px' }}
         />
         </div>
-        <h1 className="greeting">Frekuensi Transaksi<br/>kamu tahun 2024</h1>
+        <p>Frekuensi Transaksi<br/>kamu tahun 2024</p>
 
              {/* Gambar Kalender */}
         <img
@@ -498,18 +541,19 @@ const handleShare = () => {
         />
           <p>
            Tanggal Terakhir Transaksi<br/> {formatDate(clientData.TransaksiTerakhirNasabah)}
+            {(kerajinanData.Grade)}
+            {renderGrade(kerajinanData.Grade)}
+            
           </p>
           <p>
 
-            {(kerajinanData.Grade)}
-            {renderGrade(kerajinanData.Grade)}
             </p>
             
 
-          <p>ok</p>
+          {/* <p>ok</p> */}
         </div>
 
-              {/* Navigasi Slide */}
+              {/* Navigasi Slide
       <div className="navigation-buttons">
         <button onClick={handlePrev} disabled={activeIndex === 0}>
           Prev
@@ -521,7 +565,7 @@ const handleShare = () => {
             {/* Tombol Share */}
     <button onClick={handleShare}>Share </button>
       </>
-    )}
+    )} 
 
               {/* Judul dan Pesan hanya di konten keempat */}
               {activeIndex === 3 && (
@@ -591,6 +635,8 @@ const handleShare = () => {
           <p>
             Saham Favoritmu di<br/> 2024 
           </p>
+          <p>{seringDibeli?.StockID || "Data tidak tersedia"}</p>
+
           <p>Saham menjadi saham Andalan<br/>
             Kamu di 2024! semoga dapat cuan<br/>
             ya dari saham favorit kamu ini</p>
