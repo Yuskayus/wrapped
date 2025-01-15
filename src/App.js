@@ -1,6 +1,7 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import ProgressBar from "./components/ProgressBar"; // Komponen ProgressBar
 import "./index.css";
+
 
 import * as htmlToImage from 'html-to-image';
 
@@ -16,10 +17,10 @@ import Image7 from "./assets/images/image7.png";
 
 const App = () => {
   const [activeIndex, setActiveIndex] = useState(0);
-  // const [clientData, setClientData] = useState(null);
-  // const [loading, setLoading] = useState(true);
-  // const [error, setError] = useState(null);
-  // const [kerajinanData, setKerajinanData] = useState(null);
+  const [clientData, setClientData] = useState(null);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
+  const [kerajinanData, setKerajinanData] = useState(null);
   
   // const [joinDate, setJoinDate] = useState(null);
 
@@ -45,101 +46,101 @@ const App = () => {
 
 
 
-  // function formatDate(dateString, formatType = "default") {
-  //   const date = new Date(dateString);
+  function formatDate(dateString, formatType = "default") {
+    const date = new Date(dateString);
   
-  //   if (isNaN(date)) {
-  //     return "Invalid Date"; // Jika tanggal tidak valid
-  //   }
+    if (isNaN(date)) {
+      return "Invalid Date"; // Jika tanggal tidak valid
+    }
   
-  //   const day = String(date.getDate()).padStart(2, "0");
-  //   const month = String(date.getMonth() + 1).padStart(2, "0");
-  //   const year = date.getFullYear();
+    const day = String(date.getDate()).padStart(2, "0");
+    const month = String(date.getMonth() + 1).padStart(2, "0");
+    const year = date.getFullYear();
   
-  //   switch (formatType) {
-  //     case "calendar":
-  //       // Format untuk kalender: "DD\nMM\nYYYY"
-  //       return `${day}\br${month}\br${year}`;
-  //     case "default":
-  //       // Format default Anda sebelumnya
-  //       return `${day}-${month}-${year}`;
-  //     case "slash":
-  //       // Format dengan slash (untuk contoh)
-  //       return `${day}/${month}/${year}`;
-  //     default:
-  //       // Format fallback jika tipe tidak dikenali
-  //       return `${day}-${month}-${year}`;
-  //   }
-  // }
+    switch (formatType) {
+      case "calendar":
+        // Format untuk kalender: "DD\nMM\nYYYY"
+        return `${day}\br${month}\br${year}`;
+      case "default":
+        // Format default Anda sebelumnya
+        return `${day}-${month}-${year}`;
+      case "slash":
+        // Format dengan slash (untuk contoh)
+        return `${day}/${month}/${year}`;
+      default:
+        // Format fallback jika tipe tidak dikenali
+        return `${day}-${month}-${year}`;
+    }
+  }
 
-  // Fetch data dari API
-  // function formatDateVertical(dateString) {
-  //   const date = new Date(dateString);
+  //Fetch data dari API
+  function formatDateVertical(dateString) {
+    const date = new Date(dateString);
   
-  //   if (isNaN(date)) {
-  //     return "Invalid Date";
-  //   }
+    if (isNaN(date)) {
+      return "Invalid Date";
+    }
   
-  //   const day = String(date.getDate()).padStart(2, "0");
-  //   const month = String(date.getMonth() + 1).padStart(2, "0");
-  //   const year = date.getFullYear();
+    const day = String(date.getDate()).padStart(2, "0");
+    const month = String(date.getMonth() + 1).padStart(2, "0");
+    const year = date.getFullYear();
   
-  //   return (
-  //     <div style={{ textAlign: "center" }}>
-  //       <div>{day}</div>
-  //       <div>{month}</div>
-  //       <div>{year}</div>
-  //     </div>
-  //   );
-  // }
+    return (
+      <div style={{ textAlign: "center" }}>
+        <div>{day}</div>
+        <div>{month}</div>
+        <div>{year}</div>
+      </div>
+    );
+  }
 
   
-  // useEffect(() => {
-  //   const fetchData = async () => {
-  //     try {
-  //       const response = await fetch("http://localhost:3002/api/client/A0003Y");
-  //       if (!response.ok) {
-  //         throw new Error(`HTTP error! status: ${response.status}`);
-  //       }
-  //       const data = await response.json();
-  //       setClientData(data); // Simpan data ke state
-  //     } catch (err) {
-  //       setError(err.message);
-  //     } finally {
-  //       setLoading(false);
-  //     }
-  //   };
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const response = await fetch("http://localhost:3002/api/client/A0003Y");
+        if (!response.ok) {
+          throw new Error(`HTTP error! status: ${response.status}`);
+        }
+        const data = await response.json();
+        setClientData(data); // Simpan data ke state
+      } catch (err) {
+        setError(err.message);
+      } finally {
+        setLoading(false);
+      }
+    };
 
-  //   fetchData();
-  // }, []);
+    fetchData();
+  }, []);
 
-  // useEffect(() => {
-  //   if (clientData) {
-  //     const fetchKerajinanData = async () => {
-  //       try {
-  //         const response = await fetch("http://localhost:3001/api/tingkat-kerajinan");
-  //         if (!response.ok) {
-  //           throw new Error(`HTTP error! status: ${response.status}`);
-  //         }
-  //         const data = await response.json();
+  useEffect(() => {
+    if (clientData) {
+      const fetchKerajinanData = async () => {
+        try {
+          const response = await fetch("http://localhost:3001/api/tingkat-kerajinan");
+          if (!response.ok) {
+            throw new Error(`HTTP error! status: ${response.status}`);
+          }
+          const data = await response.json();
   
-  //         // Cari data kerajinan yang sesuai dengan ClientID
-  //         const filteredData = data.find(item => item.ClientID === clientData.ClientID);
+          // Cari data kerajinan yang sesuai dengan ClientID
+          const filteredData = data.find(item => item.ClientID === clientData.ClientID);
   
-  //         if (filteredData) {
-  //           setKerajinanData(filteredData); // Simpan data jika ditemukan
-  //         } else {
-  //           setKerajinanData(null); // Jika tidak ditemukan, set null
-  //         }
-  //       } catch (err) {
-  //         console.error("Error fetching tingkat kerajinan:", err.message);
-  //         setError(err.message);
-  //       }
-  //     };
+          if (filteredData) {
+            setKerajinanData(filteredData); // Simpan data jika ditemukan
+          } else {
+            setKerajinanData(null); // Jika tidak ditemukan, set null
+          }
+        } catch (err) {
+          console.error("Error fetching tingkat kerajinan:", err.message);
+          setError(err.message);
+        }
+      };
   
-  //     fetchKerajinanData();
-  //   }
-  // }, [clientData]); // Jalankan ulang ketika clientData berubah
+      fetchKerajinanData();
+    }
+  }, [clientData]); // Jalankan ulang ketika clientData berubah
   
 
   const handleNext = () => {
@@ -152,6 +153,35 @@ const App = () => {
     setActiveIndex((prevIndex) =>
       prevIndex - 1 >= 0 ? prevIndex - 1 : prevIndex
     );
+  };
+
+  // Fungsi untuk menampilkan logo dan teks berdasarkan grade
+  const renderGrade = (grade) => {
+    switch (grade) {
+      case "A":
+        return (
+          <div>
+            <img src="/logo/A.svg" alt="Logo A" />
+            <p>Grade A - Excellent</p>
+          </div>
+        );
+      case "B":
+        return (
+          <div>
+            <img src="p/logo/B.svg" alt="Logo B" />
+            <p>Grade B - Good</p>
+          </div>
+        );
+      case "C":
+        return (
+          <div>
+            <img src="/logo/C.svg" alt="Logo C" />
+            <p>Grade C - Average</p>
+          </div>
+        );
+      default:
+        return <p>Grade not found</p>;
+    }
   };
 
   //download image
@@ -306,8 +336,8 @@ const handleShare = () => {
 
 
 
-  // if (loading) return <p>Loading...</p>;
-  // if (error) return <p>Error: {error}</p>;
+  if (loading) return <p>Loading...</p>;
+  if (error) return <p>Error: {error}</p>;
 
   return (
     
@@ -317,15 +347,19 @@ const handleShare = () => {
       {/* Judul dan Pesan hanya di konten pertama */}
       {activeIndex === 0 && (
         <>
-          {/* <h1 className="greeting">Halo, {clientData.ClientName}</h1> */}
+          <h1 className="greeting">Halo, {clientData.ClientName}</h1>
           <div id="tab-content"  className="message-box" 
             style={{
+              
               backgroundImage: 'url("/images/image1.png")', // Path ke file gambar
               backgroundSize: 'cover', // Memastikan gambar menutupi seluruh elemen
               backgroundPosition: 'center', // Memusatkan gambar
               padding: '20px',
               borderRadius: '8px', // Opsional: sudut melengkung
               color: 'white', // Tambahkan bayangan untuk efek lebih profesional
+              border: '2px solid white',
+              
+              // boxSizing: 'border-box', // Sertakan padding dan border dalam dimensi
             }}
           >
           <div style={{ position: 'relative', display: 'inline-block' }}>
@@ -334,16 +368,16 @@ const handleShare = () => {
               src="/images/Logo.svg"
               alt="Calendar"
               className="calendar-image"
-              style={{ width: '200px', height: '60px' }}
+              style={{ width: '200px', height: '50px' }}
             />
           </div>
-          <h1 className="greeting">Halo</h1>
+          <h2 className="greeting">Halo</h2>
             <p
              style={{
               textAlign: "left", // Menjadikan teks rata kiri
               margin: "10px 0", // Memberikan jarak atas dan bawah
               lineHeight: "1.6", // Menambah jarak antar baris agar lebih rapi
-              fontSize: "16px", // Ukuran font yang nyaman
+              fontSize: "14px", // Ukuran font yang nyaman
               color: 'white', // Warna teks lebih gelap agar mudah dibaca
             }}
             >
@@ -353,11 +387,11 @@ const handleShare = () => {
               sangat menghargai kepercayaan<br/> Anda sebagai nasabah di Alpha<br/>
               Investasi. Semoga kita terus bisa<br/> tumbuh bersama dan meraih<br/> sukses
               finansial di tahun-tahun<br/> mendatang.<br/>
-              <br/>
+              
               Salam Hangat,<br/> Alpha Investasi
             </p>
           </div>
-            <button onClick={handleShare}>Share as Image</button>
+            <button onClick={handleShare} className="share-button">Share </button>
         </>
       )}
 
@@ -373,6 +407,8 @@ const handleShare = () => {
             padding: '20px',
             borderRadius: '8px', // Opsional: sudut melengkung
             color: 'white', // Tambahkan bayangan untuk efek lebih profesional
+            border: '2px solid white',
+
           }}
         >
         <div style={{ position: 'relative', display: 'inline-block' }}>
@@ -409,9 +445,10 @@ const handleShare = () => {
             fontSize: '20px', // Ukuran font
             fontWeight: 'bold', // Tebalkan teks
             textAlign: 'center', // Pusatkan teks
+            border: '2px solid white',
           }}
         >
-          {/* {formatDateVertical(clientData.TanggalPembuatan)} */}
+          {formatDateVertical(clientData.TanggalPembuatan)}
         </div>
       </div>
 
@@ -423,7 +460,7 @@ const handleShare = () => {
     </div>
 
     {/* Tombol Share */}
-    <button onClick={handleShare}>Share as Image</button>
+    <button onClick={handleShare}>Share </button>
   </>
 )}
 
@@ -438,6 +475,7 @@ const handleShare = () => {
             padding: '20px',
             borderRadius: '8px', // Opsional: sudut melengkung
             color: 'white', // Tambahkan bayangan untuk efek lebih profesional
+            border: '2px solid white',
           }}
         >
         <div style={{ position: 'relative', display: 'inline-block' }}>
@@ -459,13 +497,29 @@ const handleShare = () => {
           style={{ width: '150px', height: '150px' }}
         />
           <p>
-           {/* Tanggal Terakhir Transaksi<br/> {formatDate(clientData.TransaksiTerakhirNasabah)} */}
+           Tanggal Terakhir Transaksi<br/> {formatDate(clientData.TransaksiTerakhirNasabah)}
           </p>
+          <p>
+
+            {(kerajinanData.Grade)}
+            {renderGrade(kerajinanData.Grade)}
+            </p>
+            
 
           <p>ok</p>
         </div>
+
+              {/* Navigasi Slide */}
+      <div className="navigation-buttons">
+        <button onClick={handlePrev} disabled={activeIndex === 0}>
+          Prev
+        </button>
+        <button onClick={handleNext} disabled={activeIndex === slides.length - 1}>
+          Next
+        </button>
+      </div>
             {/* Tombol Share */}
-    <button onClick={handleShare}>Share as Image</button>
+    <button onClick={handleShare}>Share </button>
       </>
     )}
 
@@ -481,6 +535,7 @@ const handleShare = () => {
             padding: '20px',
             borderRadius: '8px', // Opsional: sudut melengkung
             color: 'white', // Tambahkan bayangan untuk efek lebih profesional
+            border: '2px solid white',
           }}
         >
         <div style={{ position: 'relative', display: 'inline-block' }}>
@@ -505,7 +560,7 @@ const handleShare = () => {
           </p>
           
         </div>
-        <button onClick={handleShare}>Share as Image</button>
+        <button onClick={handleShare}>Share </button>
       </>
     )}
 
@@ -521,6 +576,7 @@ const handleShare = () => {
             padding: '20px',
             borderRadius: '8px', // Opsional: sudut melengkung
             color: 'white', // Tambahkan bayangan untuk efek lebih profesional
+            border: '2px solid white',
           }}
         >
         <div style={{ position: 'relative', display: 'inline-block' }}>
@@ -540,7 +596,7 @@ const handleShare = () => {
             ya dari saham favorit kamu ini</p>
           <p>ok</p>
         </div>
-        <button onClick={handleShare}>Share as Image</button>
+        <button onClick={handleShare}>Share </button>
       </>
     )}
 
@@ -557,6 +613,7 @@ const handleShare = () => {
             padding: '20px',
             borderRadius: '8px', // Opsional: sudut melengkung
             color: 'white', // Tambahkan bayangan untuk efek lebih profesional
+            border: '2px solid white',
           }}
         >
         <div style={{ position: 'relative', display: 'inline-block' }}>
@@ -576,7 +633,7 @@ const handleShare = () => {
             kejelian kamu.Pilihan kamu mantap!</p>
           <p>ok</p>
         </div>
-        <button onClick={handleShare}>Share as Image</button>
+        <button onClick={handleShare}>Share </button>
 
       </>
     )}
@@ -593,6 +650,7 @@ const handleShare = () => {
             padding: '20px',
             borderRadius: '8px', // Opsional: sudut melengkung
             color: 'white', // Tambahkan bayangan untuk efek lebih profesional
+            border: '2px solid white',
           }}
         >
         <div style={{ position: 'relative', display: 'inline-block' }}>
@@ -614,7 +672,7 @@ const handleShare = () => {
             </p>
           <p>ok</p>
         </div>
-        <button onClick={handleShare}>Share as Image</button>
+        <button onClick={handleShare}>Share </button>
       </>
     )}
 
@@ -656,7 +714,7 @@ const handleShare = () => {
       </div>
 
       {/* Tombol Share */}
-      <button className="share-btn">Share</button>
+      {/* <button className="share-btn">Share</button> */}
     </div>
   );
 };
